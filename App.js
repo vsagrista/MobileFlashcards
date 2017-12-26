@@ -34,9 +34,8 @@ const Tabs = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       style: {
-        height: 56,
-        // backgroundColor: 'transparent',
-        shadowColor: 'rgba(0, 0, 0, 0.24)',
+        height: 55,
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
         shadowOffset: {
           width: 0,
           height: 3,
