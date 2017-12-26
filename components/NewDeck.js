@@ -5,12 +5,12 @@ import {
 	Text,
 } from 'react-native'
 
-class DeckList extends React.Component {
+class NewDeck extends React.Component {
 
 	render() {		
 		return (
 			<View style={styles.container}>
-                <Text>Deck here</Text>
+                <Text>NEW DECK</Text>
 			</View>
 		)
 	}
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
 	},
 })
 
-export default DeckList;
+export default NewDeck;
