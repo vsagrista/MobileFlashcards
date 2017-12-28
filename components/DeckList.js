@@ -6,11 +6,29 @@ import {
 	TouchableOpacity,
 	FlatList
 } from 'react-native'
+import { getDecks } from '../utils/api'
 import DeckView from './DeckView'
 
 class DeckList extends React.Component {
 
-	_keyExtractor = (item, index) => item.id;
+	constructor() {
+		super();
+		this.state = {
+			decks: []
+		}
+	}
+
+	componentDidMount() {
+		let decksArr = []
+		getDecks().then((decks) => {
+			Object.values(decks).forEach(function (deck) { decksArr.push(deck) });
+			this.setState({
+				decks: decksArr
+			});
+		})
+	}
+
+	_keyExtractor = (item, i) => i;
 
 	renderItem = ({ item }) => (
 		<View style={styles.item}>
@@ -19,7 +37,8 @@ class DeckList extends React.Component {
 					this.props.navigation.navigate('DeckView')
 					console.log('item')
 				}}>
-				<Text>{item.name}</Text>
+				<Text style={{textAlign: 'center'}}>Deck: {item.title}</Text>
+				<Text style={{textAlign: 'center'}}>Cards: {item.questions.length}</Text>
 			</TouchableOpacity>
 		</View>
 	)
@@ -30,7 +49,7 @@ class DeckList extends React.Component {
 		return (
 			<View style={styles.container}>
 				<FlatList
-					data={sampleData}
+					data={this.state.decks}
 					renderItem={this.renderItem}
 					keyExtractor={this._keyExtractor}
 				/>
