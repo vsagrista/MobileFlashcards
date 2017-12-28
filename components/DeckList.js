@@ -34,7 +34,7 @@ class DeckList extends React.Component {
 		<View style={styles.item}>
 			<TouchableOpacity
 				onPress={() => {
-					this.props.navigation.navigate('DeckView')
+					this.props.navigation.navigate('DeckView', item)
 					console.log('item')
 				}}>
 				<Text style={{textAlign: 'center'}}>Deck: {item.title}</Text>

@@ -30,9 +30,6 @@ const quizzData = {
 
 export function getDecks() {
 	return AsyncStorage.getItem(STORAGE_KEY).then(results => {
-    //console.log()
-   // let r =
-    //console.log('results: ', r)
 		return results === null ? storeData() : JSON.parse(results);
 	})
 }
