@@ -38,35 +38,43 @@ class ResultsView extends React.Component {
     }
 
     render() {
+        //console.log('params: ', this.props.navigation.state.params)
         let isAnswerCorrect = this.props.navigation.state.params.data.isCorrect;
+        let isLastQuestion = this.props.navigation.state.params.isLastQuestion;
         return (
             <View style={this._containerStyle(isAnswerCorrect)}>
-                <View style={styles.message}>
-                    {
-                        isAnswerCorrect
-                            ? <Text>Awesome!</Text>
-                            : <Text>Bummer!</Text>
-                    }
-                    {
-                        isAnswerCorrect
-                            ? <Ionicons name="ios-happy-outline" size={40} color={'black'} />
-                            : <Ionicons name="ios-sad-outline" size={40} color={'black'} />
-                    }
-                    <View>
+                {!isLastQuestion &&
+                    <View style={styles.message}>
                         {
-                            this.props.navigation.state.params.viewAnswer.show &&
+                            isAnswerCorrect
+                                ? <Text>Awesome!</Text>
+                                : <Text>Bummer!</Text>
+                        }
+                        {
+                            isAnswerCorrect
+                                ? <Ionicons name="ios-happy-outline" size={40} color={'black'} />
+                                : <Ionicons name="ios-sad-outline" size={40} color={'black'} />
+                        }
+                        <View>
+                            {
+                                this.props.navigation.state.params.viewAnswer.show &&
                                 <Text>Right answer: {this.props.navigation.state.params.viewAnswer.answer}</Text>
-                        } 
-                    </View>
+                            }
+                        </View>
 
-                    <Text>
-                        Success rate: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%
+                        <Text>
+                            Success rate: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%
                     </Text>
-                    <Text
-                        onPress={() => {
-                            this.props.navigation.navigate('QuizzView', this.props.navigation.state.params)
-                        }} > - Next Question - </Text>
-                </View>
+                        <Text
+                            onPress={() => {
+                                this.props.navigation.navigate('QuizzView', this.props.navigation.state.params)
+                            }} > - Next Question - </Text>
+                    </View>
+                }
+                {isLastQuestion &&
+                    <View>
+                        <Text>Last question, we need a summary!</Text>
+                    </View>}
             </View >
 
         )
