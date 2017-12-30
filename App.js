@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform  } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
 import DeckView from './components/DeckView'
 import QuizzView from './components/QuizzView'
+import ResultsView from './components/ResultsView'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 
@@ -63,15 +64,21 @@ const MainNavigator = StackNavigator({
       }
     }
   },
-   QuizzView: {
-      screen: QuizzView,
-      navigationOptions: {
-        tabBarLabel: 'Quizz View',
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-add-circle-outline" size={40} color={tintColor} />
-        ),
-      },
+  QuizzView: {
+    screen: QuizzView,
+    navigationOptions: {
+      tabBarLabel: 'Quizz View',
+      tabBarIcon: ({ tintColor }) => (
+        <Ionicons name="ios-add-circle-outline" size={40} color={tintColor} />
+      ),
     },
+  },
+  ResultsView: {
+    screen: ResultsView,
+    navigationOptions: {
+      header: null
+    }
+  },
 })
 
 
@@ -79,18 +86,15 @@ const MainNavigator = StackNavigator({
 export default class App extends React.Component {
   render() {
     return (
-        <View style={{flex: 1}}>
-           <MainNavigator />
-        </View>
+      <View style={styles.container}>
+        <MainNavigator />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1
   },
 });

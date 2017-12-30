@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
 import {
 	StyleSheet,
 	View,
 	Text,
 	TouchableOpacity,
 	FlatList
-} from 'react-native'
-import QuizzView from './DeckView'
+} from 'react-native';
 
 class DeckView extends React.Component {
 

@@ -35,7 +35,6 @@ class DeckList extends React.Component {
 			<TouchableOpacity
 				onPress={() => {
 					this.props.navigation.navigate('DeckView', item)
-					console.log('item')
 				}}>
 				<Text style={{textAlign: 'center'}}>Deck: {item.title}</Text>
 				<Text style={{textAlign: 'center'}}>Cards: {item.questions.length}</Text>
@@ -60,6 +59,11 @@ class DeckList extends React.Component {
 
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center'
+	},	
 	item: {
 		backgroundColor: 'white',
 		borderRadius: 16,
