@@ -45,7 +45,9 @@ class QuizzView extends React.Component {
             ? true
             : false
         let isLastQuestion = this.state.currentQuestion + 1  === this.state.questions.length;
-        //console.log('this.state.questions[this.state.currentQuestion].correct: ', this.state.questions[this.state.currentQuestion].correct, answer, isCorrect)
+        let correctCount = isCorrect ? this.state.correctCount + 1 : this.state.correctCount;
+        //(this.state.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100
+        
         let answerData = {
             data: {
                 questions: this.state.questions,
@@ -53,7 +55,8 @@ class QuizzView extends React.Component {
                 isCorrect: isCorrect,
                 correctCount: isCorrect ? this.state.correctCount + 1 : this.state.correctCount
             },
-            isLastQuestion: isLastQuestion
+            isLastQuestion: isLastQuestion,
+            correctCount: correctCount
         }
         this._showResults(answerData);
     }
@@ -75,7 +78,10 @@ class QuizzView extends React.Component {
                     <Text >{this.state.count}</Text>
                 </View>
                 <View>
-                    <Text>Correct count: {this.state.correctCount}</Text>
+                    {this.props.navigation.state.params.data &&
+                        <Text>Right answers: {Math.round((this.state.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%</Text>
+                    }
+                    
                 </View>
                 <View >
                     {this.state.questions.length > 0 && 

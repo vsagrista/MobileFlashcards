@@ -15,13 +15,13 @@ class ResultsView extends React.Component {
     constructor() {
         super();
         this.state = {
-            
+
         }
     }
 
     componentDidMount() {
         console.log('results view')
-        console.log('params: ', this.props.navigation.state.params)
+        console.log('params from results: ', this.props.navigation.state.params)
     }
 
     _containerStyle = (isAnswerCorrect) => {
@@ -52,6 +52,9 @@ class ResultsView extends React.Component {
                             ? <Ionicons name="ios-happy-outline" size={40} color={'black'} />
                             : <Ionicons name="ios-sad-outline" size={40} color={'black'} />
                     }
+                    <Text>
+                        Right answers: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100) }%
+                    </Text>
                     <Text
                         onPress={() => {
                             this.props.navigation.navigate('QuizzView', this.props.navigation.state.params)
