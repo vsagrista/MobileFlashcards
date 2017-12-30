@@ -16,18 +16,19 @@ class QuizzView extends React.Component {
         this.state = {
             questions: [],
             currentQuestion: 0,
-            isCorrect: null
+            isCorrect: null,
+            correctCount: 0
         }
     }
 
     componentDidMount() {
-        console.log('this.props.navigation.state.params: ', this.props.navigation.state.params)
         if (this.props.navigation.state.params.data) {
-            console.log('yesss ----> ', this.props.navigation.state.params.data)
+            console.log('correctCount ----> ', this.props.navigation.state.params.data.correctCount)
             this.setState({
                 count: `${this.props.navigation.state.params.data.currentQuestion + 1} / ${this.props.navigation.state.params.data.questions.length}`,
                 currentQuestion: this.props.navigation.state.params.data.currentQuestion,
-                questions: this.props.navigation.state.params.data.questions
+                questions: this.props.navigation.state.params.data.questions,
+                correctCount: this.props.navigation.state.params.data.correctCount
             })
         } else {
             this.setState({
@@ -43,13 +44,14 @@ class QuizzView extends React.Component {
         let isCorrect = this.state.questions[this.state.currentQuestion].correct === answer
             ? true
             : false
-        let isLastQuestion = this.state.currentQuestion + 1  === this.state.questions.length
+        let isLastQuestion = this.state.currentQuestion + 1  === this.state.questions.length;
         //console.log('this.state.questions[this.state.currentQuestion].correct: ', this.state.questions[this.state.currentQuestion].correct, answer, isCorrect)
         let answerData = {
             data: {
                 questions: this.state.questions,
                 currentQuestion: this.state.currentQuestion + 1,
-                isCorrect: isCorrect
+                isCorrect: isCorrect,
+                correctCount: isCorrect ? this.state.correctCount + 1 : this.state.correctCount
             },
             isLastQuestion: isLastQuestion
         }
@@ -71,6 +73,9 @@ class QuizzView extends React.Component {
                 </View>
                 <View>
                     <Text >{this.state.count}</Text>
+                </View>
+                <View>
+                    <Text>Correct count: {this.state.correctCount}</Text>
                 </View>
                 <View >
                     {this.state.questions.length > 0 && 
