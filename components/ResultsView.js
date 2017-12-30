@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     FlatList
 } from 'react-native';
-import QuizzView from './QuizzView'; 
+import QuizzView from './QuizzView';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 class ResultsView extends React.Component {
@@ -45,15 +45,22 @@ class ResultsView extends React.Component {
                     {
                         isAnswerCorrect
                             ? <Text>Awesome!</Text>
-                            : <Text>Not quite!</Text>
+                            : <Text>Bummer!</Text>
                     }
                     {
                         isAnswerCorrect
                             ? <Ionicons name="ios-happy-outline" size={40} color={'black'} />
                             : <Ionicons name="ios-sad-outline" size={40} color={'black'} />
                     }
+                    <View>
+                        {
+                            this.props.navigation.state.params.viewAnswer.show &&
+                                <Text>Right answer: {this.props.navigation.state.params.viewAnswer.answer}</Text>
+                        } 
+                    </View>
+
                     <Text>
-                        Right answers: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100) }%
+                        Success rate: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%
                     </Text>
                     <Text
                         onPress={() => {

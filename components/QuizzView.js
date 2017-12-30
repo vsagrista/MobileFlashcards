@@ -39,15 +39,13 @@ class QuizzView extends React.Component {
     }
 
 
-    _handleAnswer = (answer) => {
+    _handleAnswer = (answer, viewAnswer) => {
         console.log('here, this.state.currentQuestion: ', this.state.currentQuestion)
         let isCorrect = this.state.questions[this.state.currentQuestion].correct === answer
             ? true
             : false
-        let isLastQuestion = this.state.currentQuestion + 1  === this.state.questions.length;
+        let isLastQuestion = this.state.currentQuestion + 1 === this.state.questions.length;
         let correctCount = isCorrect ? this.state.correctCount + 1 : this.state.correctCount;
-        //(this.state.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100
-        
         let answerData = {
             data: {
                 questions: this.state.questions,
@@ -56,7 +54,11 @@ class QuizzView extends React.Component {
                 correctCount: isCorrect ? this.state.correctCount + 1 : this.state.correctCount
             },
             isLastQuestion: isLastQuestion,
-            correctCount: correctCount
+            correctCount: correctCount,
+            viewAnswer: {
+                show: viewAnswer,
+                answer: this.state.questions[this.state.currentQuestion].answer
+            }
         }
         this._showResults(answerData);
     }
@@ -68,7 +70,7 @@ class QuizzView extends React.Component {
 
     render() {
         //console.log('this.state: ', this.state)
-         console.log('here rendering')
+        console.log('here rendering')
         return (
             <View>
                 <View style={styles.container}>
@@ -79,17 +81,20 @@ class QuizzView extends React.Component {
                 </View>
                 <View>
                     {this.props.navigation.state.params.data &&
-                        <Text>Right answers: {Math.round((this.state.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%</Text>
+                        <Text>Success rate: {Math.round((this.state.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%</Text>
                     }
-                    
                 </View>
                 <View >
-                    {this.state.questions.length > 0 && 
+                    {this.state.questions.length > 0 &&
                         <Text style={{ textAlign: 'center' }}>{this.state.questions[this.state.currentQuestion].question}</Text>
                     }
                 </View>
                 <View style={styles.viewAnswer}>
-                    <Text style={{ textAlign: 'center', color: 'red' }}>View Answer</Text>
+                    <Text style={{ textAlign: 'center', color: 'red' }}
+                        onPress={() => {
+                            this._handleAnswer(false, true);
+                        }}>
+                        View Answer</Text>
                 </View>
                 <View onPress={() => {
                     this.props.navigation.navigate('DeckView', item)
