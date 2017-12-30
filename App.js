@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Platform  } from 'react-native';
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
 import DeckView from './components/DeckView'
+import QuizzView from './components/QuizzView'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 
@@ -61,7 +62,16 @@ const MainNavigator = StackNavigator({
         backgroundColor: 'blue',
       }
     }
-  }
+  },
+   QuizzView: {
+      screen: QuizzView,
+      navigationOptions: {
+        tabBarLabel: 'Quizz View',
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-add-circle-outline" size={40} color={tintColor} />
+        ),
+      },
+    },
 })
 
 

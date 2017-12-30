@@ -3,9 +3,10 @@ import {
 	StyleSheet,
 	View,
 	Text,
-    TouchableOpacity,
+	TouchableOpacity,
 	FlatList
 } from 'react-native'
+import QuizzView from './DeckView'
 
 class DeckView extends React.Component {
 
@@ -18,7 +19,6 @@ class DeckView extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log('params', this.props.navigation.state.params)
 		this.setState({
 			title: this.props.navigation.state.params.title,
 			questions: this.props.navigation.state.params.questions
@@ -29,9 +29,9 @@ class DeckView extends React.Component {
 		<View style={styles.item}>
 			<TouchableOpacity
 				onPress={() => {
-					this.props.navigation.navigate('DeckView', item)
+					this.props.navigation.navigate('QuizzView', item)
 				}}>
-				<Text style={{textAlign: 'center'}}>Question: {item.question}</Text>
+				<Text style={{ textAlign: 'center' }}>Question: {item.question}</Text>
 			</TouchableOpacity>
 		</View>
 	)
@@ -39,18 +39,30 @@ class DeckView extends React.Component {
 
 	_keyExtractor = (item, i) => i;
 
-	render() {	
+	render() {
 		return (
 			<View>
 				<View style={styles.container}>
-					<Text>{this.state.title}</Text>
+					<Text>Title: {this.state.title}</Text>
 				</View>
-				<FlatList
+				{/*<FlatList
 					data={this.state.questions}
 					renderItem={this.renderItem}
 					keyExtractor={this._keyExtractor}
-				/>
-				<Text style={{textAlign: 'center'}}>{this.state.questions.length} cards</Text>
+				/>*/}
+				<Text style={{ textAlign: 'center' }}>Cards: {this.state.questions.length} cards</Text>
+				<TouchableOpacity
+					onPress={() => {
+						this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.questions)
+					}}>
+					<Text style={{ textAlign: 'center' }}>Start quizz</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => {
+						// this.props.navigation.navigate('QuizzView', item) New question
+					}}>
+					<Text style={{ textAlign: 'center' }}>Add Question</Text>
+				</TouchableOpacity>
 
 			</View>
 		)
@@ -59,7 +71,7 @@ class DeckView extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-        backgroundColor: 'white',
+		backgroundColor: 'white',
 		padding: 10,
 		flexDirection: 'row',
 		justifyContent: 'center',

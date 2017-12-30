@@ -8,12 +8,19 @@ const quizzData = {
     title: 'React',
     questions: [
       {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
+        question: 'React is a library for managing user interfaces',
+        answer: 'A library for managing user interfaces',
+        correct: true
       },
       {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
+        question: 'In React, Ajax requests are contained in the componentDidMount lifecycle event',
+        answer: 'Ajax requests are indeed contained in the componentDidMount lifecycle event',
+        correct: true
+      },
+      {
+        question: 'React is a programming language',
+        answer: 'React is a Javascript library',
+        correct: false
       }
     ]
   },
@@ -21,8 +28,9 @@ const quizzData = {
     title: 'JavaScript',
     questions: [
       {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
+        question: 'A closure is the combination of a function and the lexical environment within which that function was declared.',
+        answer: 'A closure is the combination of a function and the lexical environment within which that function was declared.',
+        correct: true
       }
     ]
   }
