@@ -47,3 +47,13 @@ export function storeData() {
 	return quizzData;
 }
 
+export function saveDeckTitle(title) {
+  console.log('saving title', title)
+  try {
+    AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(title));
+  } catch (e) {
+    console.log('error: ', e)
+  }
+	//return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(title));
+}
+

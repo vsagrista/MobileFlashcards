@@ -4,7 +4,8 @@ import {
 	View,
 	Text,
 	TouchableOpacity,
-	FlatList
+	FlatList,
+	AsyncStorage
 } from 'react-native'
 import { getDecks } from '../utils/api'
 import DeckView from './DeckView'
@@ -20,12 +21,15 @@ class DeckList extends React.Component {
 
 	componentDidMount() {
 		let decksArr = []
+		//AsyncStorage.clear()
 		getDecks().then((decks) => {
+			console.log('decks: ', decks)
 			Object.values(decks).forEach(function (deck) { decksArr.push(deck) });
 			this.setState({
 				decks: decksArr
 			});
 		})
+		
 	}
 
 	_keyExtractor = (item, i) => i;
