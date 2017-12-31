@@ -4,10 +4,12 @@ import {
 	View,
 	Text,
 	TextInput,
-	TouchableOpacity
+	TouchableOpacity,
+	Alert
 } from 'react-native'
 import { getDecks, saveDeckTitle } from '../utils/api';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import DeckList from './DeckList';
 
 class NewDeck extends React.Component {
 
@@ -24,10 +26,12 @@ class NewDeck extends React.Component {
 	}
 
 	componentDidMount() {
+		this._fetchDecks();
+	}
+
+	_fetchDecks = () => {
 		let decksArr = []
-		//AsyncStorage.clear()
 		getDecks().then((decks) => {
-			//console.log('decks: ', decks)
 			Object.values(decks).forEach(function (deck) { decksArr.push(deck) });
 			this.setState({
 				decks: decksArr
@@ -36,35 +40,47 @@ class NewDeck extends React.Component {
 	}
 
 	_saveDeck = () => {
-		//console.log('this.state: ', this.state)
-		//console.log('index: ', this.state.decks.indexOf(this.state.title))
-		if (this._validate()) { console.log('validation ok') }
-		else {
+		if (this._validate()) {
+			let newDeck = {
+				[this.state.title]:
+				{
+					title: this.state.title,
+					questions: []
+				}
+			}
+			this.setState({
+				title: ''
+			});
+			saveDeckTitle(newDeck);
+			this._fetchDecks();
+			this.props.navigation.navigate('DeckList', { notice: true });
+		} else {
 			console.log('something happened')
 		}
 	}
 
 	_validate = () => {
+		let isValid = true;
 		if (this.state.title.length === 0) {
-			this.setState({ errors: { ...this.state.errors, empty: true } });
-			return false;
-		}
-		this.state.decks.forEach((deck) => {
+			Alert.alert('Title Required', 'The Deck must have a name');
+			isValid = false;
+		} else {
+			this.state.decks.forEach((deck) => {
 			if (deck.title === this.state.title) {
-				this.setState({ errors: { ...this.state.errors, isRepeated: true } });
-				return false;
+				Alert.alert('Error', 'This deck already exits. Try with a new name');
+				isValid = false;
 			}
-		});
-		return true;
+			});
+		}
+		return isValid;
 	}
 
 
 	render() {
-		console.log('this.state: ', this.state)
 		return (
 			<View style={styles.container}>
 				<View>
-					<Text style={{textAlign: 'center'}}>ENTER YOUR NEW DECK</Text>
+					<Text style={{ textAlign: 'center' }}>ENTER YOUR NEW DECK</Text>
 					<TextInput
 						onChangeText={title => this.setState({ title })}
 						value={this.state.title}
@@ -77,10 +93,9 @@ class NewDeck extends React.Component {
 							onPress={this._saveDeck}
 							style={styles.button}
 						>
-							<FontAwesome name="save" size={20} color={'black'} style={{textAlign: 'center'}} />
-
+							<FontAwesome name="save" size={30} color={'black'} style={{ textAlign: 'center' }} />
 						</TouchableOpacity>
-						<Text style={styles.textInput}>Save</Text>
+						<Text style={styles.textInput}>- Save -</Text>
 					</View>
 
 				</View>
@@ -102,7 +117,7 @@ const styles = StyleSheet.create({
 		width: 300,
 		height: 60,
 		padding: 5,
-		borderWidth: 2,
+		borderWidth: 1,
 		borderColor: 'black',
 		backgroundColor: '#fff',
 		margin: 20,
@@ -110,7 +125,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	textInput: {
-		fontWeight: 'bold',
 		textAlign: 'center'
 	}
 })

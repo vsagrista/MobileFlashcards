@@ -60,7 +60,7 @@ const MainNavigator = StackNavigator({
     navigationOptions: {
       headerTintColor: 'white',
       headerStyle: {
-        backgroundColor: 'blue',
+        backgroundColor: 'lightgrey',
       }
     }
   },

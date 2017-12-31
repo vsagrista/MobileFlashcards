@@ -15,21 +15,32 @@ class DeckList extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			decks: []
+			decks: [],
+			showNotification: false
 		}
 	}
 
 	componentDidMount() {
+		AsyncStorage.clear()
+		this._fetchDecks();
+	}
+
+	// Refreshes and notifies after adding new deck
+	componentWillReceiveProps() {
+		this._fetchDecks();
+		this.setState({
+			showNotification: true
+		})
+	}
+
+	_fetchDecks = () => {
 		let decksArr = []
-		//AsyncStorage.clear()
 		getDecks().then((decks) => {
-			console.log('decks: ', decks)
 			Object.values(decks).forEach(function (deck) { decksArr.push(deck) });
 			this.setState({
 				decks: decksArr
 			});
 		})
-		
 	}
 
 	_keyExtractor = (item, i) => i;
@@ -40,17 +51,30 @@ class DeckList extends React.Component {
 				onPress={() => {
 					this.props.navigation.navigate('DeckView', item)
 				}}>
-				<Text style={{textAlign: 'center'}}>Deck: {item.title}</Text>
-				<Text style={{textAlign: 'center'}}>Cards: {item.questions.length}</Text>
+				<Text style={{ textAlign: 'center' }}>Deck: {item.title}</Text>
+				<Text style={{ textAlign: 'center' }}>Cards: {item.questions.length}</Text>
 			</TouchableOpacity>
 		</View>
 	)
 
 
 	render() {
-		let sampleData = [{ name: 'text1', id: 'orirnie' }, { name: 'text2', id: 'frpofmperf' }]
 		return (
+
 			<View style={styles.container}>
+				<View style={styles.topInfo}>
+					<Text style={{ textAlign: 'center' }}>DECKS</Text>
+				</View>
+				<View style={styles.notification}>
+					{this.state.showNotification
+						&& <Text style={{ color: 'white', textAlign: 'center' }}>Deck saved!</Text>
+					}
+					{this.state.showNotification
+						&& <Text onPress={() => {
+							this.setState({showNotification: false})
+						}} style={{ color: 'white', textAlign: 'center' }}>- Close -</Text>
+					}
+				</View>
 				<FlatList
 					data={this.state.decks}
 					renderItem={this.renderItem}
@@ -63,14 +87,21 @@ class DeckList extends React.Component {
 
 
 const styles = StyleSheet.create({
+	topInfo: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		margin: 30
+	},
 	container: {
 		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'center'
-	},	
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
 	item: {
 		backgroundColor: 'white',
 		borderRadius: 16,
+		width: 300,
 		padding: 20,
 		marginLeft: 10,
 		marginRight: 10,
@@ -84,6 +115,12 @@ const styles = StyleSheet.create({
 			height: 3
 		}
 	},
+	notification: {
+		backgroundColor: 'green',
+		width: 300,
+		marginTop: 50,
+		borderRadius: 15
+	}
 });
 
 

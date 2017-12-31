@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	FlatList
 } from 'react-native';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 class DeckView extends React.Component {
 
@@ -40,46 +41,74 @@ class DeckView extends React.Component {
 
 	render() {
 		return (
-			<View>
-				<View style={styles.container}>
-					<Text>Title: {this.state.title}</Text>
+			<View style={{flex: 1}}>
+				<View style={styles.topInfo}>
+					<Text style={{ textAlign: 'left' }}>Cards: {this.state.questions.length} cards</Text>
+					<Ionicons name="ios-photos-outline" size={40} color={'black'}  style={{ textAlign: 'center' }}/>
+					<Text style={{ textAlign: 'center' }}>DECK: {this.state.title && this.state.title.toUpperCase()}</Text>
 				</View>
-				{/*<FlatList
-					data={this.state.questions}
-					renderItem={this.renderItem}
-					keyExtractor={this._keyExtractor}
-				/>*/}
-				<Text style={{ textAlign: 'center' }}>Cards: {this.state.questions.length} cards</Text>
-				<TouchableOpacity
-					onPress={() => {
-						this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.questions)
-					}}>
-					<Text style={{ textAlign: 'center' }}>Start quizz</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					onPress={() => {
-						// this.props.navigation.navigate('QuizzView', item) New question
-					}}>
-					<Text style={{ textAlign: 'center' }}>Add Question</Text>
-				</TouchableOpacity>
+				<View style={styles.container}>
+					<View style={[styles.containerInner, styles.containerEven]}>
+						<TouchableOpacity
+							onPress={() => {
+								this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.questions)
+							}}>
+							<Text style={{ textAlign: 'center' }}>Start quizz</Text>
+						</TouchableOpacity>
+					</View>
+					<View style={[styles.containerInner, styles.containerOdd]}>
+						<TouchableOpacity
+							onPress={() => {
+								// this.props.navigation.navigate('QuizzView', item) New question
+							}}>
+							<Text style={{ textAlign: 'center' }}>Add Question</Text>
+						</TouchableOpacity>
+					</View>
 
+				</View>
 			</View>
+			
 		)
 	}
 }
 
 const styles = StyleSheet.create({
+	topInfo: {
+		flexDirection: 'column',
+		justifyContent: 'center'
+	},
+	iconWrapper: {
+		height: 40,
+		backgroundColor: 'blue'
+	},
 	container: {
+		flex: 1,
 		backgroundColor: 'white',
 		padding: 10,
-		flexDirection: 'row',
+		flexDirection: 'column',
+		alignItems: 'center'
+	},
+	containerInner: {
+		margin: 20,
+		height: 80,
+		width: 300,
+		padding: 20,
 		justifyContent: 'center',
+		borderRadius: 15,
+		shadowRadius: 3,
+		shadowOpacity: 0.8,
+		shadowColor: 'rgba(0, 0, 0, 0.24)',
+		shadowOffset: {
+			width: 0,
+			height: 3
+		}
 	},
-	deck: {
-		width: 400,
-		margin: 0,
-		padding: 0,
+	containerOdd: {
+		backgroundColor: 'lightgrey'
 	},
+	containerEven: {
+		backgroundColor: 'lightblue'
+	}
 })
 
 export default DeckView;
