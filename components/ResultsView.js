@@ -7,33 +7,27 @@ import {
     FlatList
 } from 'react-native';
 import QuizzView from './QuizzView';
+import DeckList from './DeckList';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 class ResultsView extends React.Component {
 
-
-    constructor() {
-        super();
-        this.state = {
-
+    _containerStyle = (isAnswerCorrect, isLastQuestion) => {
+        let backgroundColor;
+        if (isLastQuestion) {
+            backgroundColor = 'lightblue';
+        } else {
+            backgroundColor = isAnswerCorrect
+                ? 'green'
+                : 'red'
         }
-    }
-
-    componentDidMount() {
-        console.log('results view')
-        console.log('params from results: ', this.props.navigation.state.params)
-    }
-
-    _containerStyle = (isAnswerCorrect) => {
         return {
             padding: 10,
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: isAnswerCorrect
-                ? 'green'
-                : 'red'
+            backgroundColor: backgroundColor
         }
     }
 
@@ -42,7 +36,7 @@ class ResultsView extends React.Component {
         let isAnswerCorrect = this.props.navigation.state.params.data.isCorrect;
         let isLastQuestion = this.props.navigation.state.params.isLastQuestion;
         return (
-            <View style={this._containerStyle(isAnswerCorrect)}>
+            <View style={this._containerStyle(isAnswerCorrect, isLastQuestion)}>
                 {!isLastQuestion &&
                     <View style={styles.message}>
                         {
@@ -64,7 +58,7 @@ class ResultsView extends React.Component {
 
                         <Text>
                             Success rate: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%
-                    </Text>
+                        </Text>
                         <Text
                             onPress={() => {
                                 this.props.navigation.navigate('QuizzView', this.props.navigation.state.params)
@@ -73,7 +67,17 @@ class ResultsView extends React.Component {
                 }
                 {isLastQuestion &&
                     <View>
-                        <Text>Last question, we need a summary!</Text>
+                        <Text style={{ textAlign: 'center' }}>FANTASTIC!!!</Text>
+                        <Text style={{ textAlign: 'center' }}>Your success rate was: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%</Text>
+                        <View>
+                            <TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
+                                onPress={() => {
+                                    this.props.navigation.navigate('DeckList');
+                                }}>
+                                <Ionicons style={{ textAlign: 'center' }} name="ios-home-outline" size={40} color={'black'} />
+                                <Text style={{ textAlign: 'center' }}>Finish</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>}
             </View >
 

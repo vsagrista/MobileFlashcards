@@ -11,7 +11,6 @@ import ResultsView from './ResultsView';
 class QuizzView extends React.Component {
 
     constructor() {
-        console.log('running quizzview')
         super();
         this.state = {
             questions: [],
@@ -22,8 +21,7 @@ class QuizzView extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.navigation.state.params.data) {
-            console.log('correctCount ----> ', this.props.navigation.state.params.data.correctCount)
+        if (this.props.navigation.state.params.data) { // if true, the quizz is run from the resultsView component
             this.setState({
                 count: `${this.props.navigation.state.params.data.currentQuestion + 1} / ${this.props.navigation.state.params.data.questions.length}`,
                 currentQuestion: this.props.navigation.state.params.data.currentQuestion,
@@ -40,7 +38,6 @@ class QuizzView extends React.Component {
 
 
     _handleAnswer = (answer, viewAnswer) => {
-        console.log('here, this.state.currentQuestion: ', this.state.currentQuestion)
         let isCorrect = this.state.questions[this.state.currentQuestion].correct === answer
             ? true
             : false
