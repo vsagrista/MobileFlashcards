@@ -21,7 +21,6 @@ class DeckList extends React.Component {
 	}
 
 	componentDidMount() {
-		AsyncStorage.clear()
 		this._fetchDecks();
 	}
 
@@ -31,6 +30,10 @@ class DeckList extends React.Component {
 		this.setState({
 			showNotification: true
 		})
+	}
+
+	componentWillMount() {
+		this._fetchDecks();
 	}
 
 	_fetchDecks = () => {

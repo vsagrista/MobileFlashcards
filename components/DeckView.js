@@ -44,7 +44,7 @@ class DeckView extends React.Component {
 		return (
 			<View style={{ flex: 1 }}>
 				<View style={styles.topInfo}>
-					<Text style={{ textAlign: 'left' }}>Cards: {this.state.questions.length} cards</Text>
+					<Text style={{ textAlign: 'left' }}>Cards: {this.state.questions.length}</Text>
 					<Ionicons name="ios-photos-outline" size={40} color={'black'} style={{ textAlign: 'center' }} />
 					<Text style={{ textAlign: 'center' }}>DECK: {this.state.title && this.state.title.toUpperCase()}</Text>
 				</View>
@@ -68,7 +68,15 @@ class DeckView extends React.Component {
 							<Text style={{ textAlign: 'center' }}>Add Question</Text>
 						</TouchableOpacity>
 					</View>
-
+					<View>
+                            <TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
+                                onPress={() => {
+                                    this.props.navigation.navigate('DeckList', {notify: true});
+                                }}>
+                                <Ionicons style={{ textAlign: 'center' }} name="ios-home-outline" size={40} color={'black'} />
+                                <Text style={{ textAlign: 'center' }}>- Back home -</Text>
+                            </TouchableOpacity>
+                        </View>
 				</View>
 			</View>
 
@@ -79,7 +87,8 @@ class DeckView extends React.Component {
 const styles = StyleSheet.create({
 	topInfo: {
 		flexDirection: 'column',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		marginTop: 30
 	},
 	iconWrapper: {
 		height: 40,

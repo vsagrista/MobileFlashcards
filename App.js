@@ -59,10 +59,7 @@ const MainNavigator = StackNavigator({
   DeckView: {
     screen: DeckView,
     navigationOptions: {
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: 'lightgrey',
-      }
+      header: null
     }
   },
   QuizzView: {
