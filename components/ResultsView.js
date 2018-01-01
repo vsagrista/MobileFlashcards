@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     StyleSheet,
     View,
@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import QuizzView from './QuizzView';
 import DeckView from './DeckView';
+import {clearLocalNotification,
+        setLocalNotification } from '../utils/helperFunctions';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 class ResultsView extends React.Component {
@@ -85,6 +87,7 @@ class ResultsView extends React.Component {
                         <View style={[styles.containerInner, styles.containerEven]}>
                             <TouchableOpacity
                                 onPress={() => {
+                                    clearLocalNotification().then(setLocalNotification)
                                     this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.data)
                                 }}>
                                 <Ionicons style={{ textAlign: 'center' }} name="ios-refresh" size={40} color={'black'} />

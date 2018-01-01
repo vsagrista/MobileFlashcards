@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
-import DeckList from './components/DeckList'
-import NewDeck from './components/NewDeck'
-import DeckView from './components/DeckView'
-import QuizzView from './components/QuizzView'
-import ResultsView from './components/ResultsView'
-import NewQuestion from './components/NewQuestion'
-import { TabNavigator, StackNavigator } from 'react-navigation'
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import DeckList from './components/DeckList';
+import NewDeck from './components/NewDeck';
+import DeckView from './components/DeckView';
+import QuizzView from './components/QuizzView';
+import ResultsView from './components/ResultsView';
+import NewQuestion from './components/NewQuestion';
+import { TabNavigator, StackNavigator } from 'react-navigation';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { setLocalNotification } from './utils/helperFunctions';
 
 const Tabs = TabNavigator(
   {
@@ -92,6 +93,10 @@ const MainNavigator = StackNavigator({
 
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <View style={styles.container}>
