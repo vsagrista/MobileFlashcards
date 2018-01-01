@@ -56,7 +56,7 @@ class NewQuestion extends React.Component {
             }
             addNewCard(newCard, newCard.title, this.props.navigation)
         } else {
-            console.log('something happened')
+            console.log('Error adding new question');
         }
     }
 
@@ -71,7 +71,6 @@ class NewQuestion extends React.Component {
 
 
     render() {
-       // console.log('this.state: ', this.state)
         return (
             <View style={styles.container}>
                 <View>

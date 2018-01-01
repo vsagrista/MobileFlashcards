@@ -37,42 +37,39 @@ const quizzData = {
 }
 
 export function getDecks() {
-	return AsyncStorage.getItem(STORAGE_KEY).then(results => {
-		return results === null ? storeData() : JSON.parse(results);
-	})
+  return AsyncStorage.getItem(STORAGE_KEY).then(results => {
+    return results === null ? storeData() : JSON.parse(results);
+  })
 }
 
 export function storeData() {
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(quizzData))
-	return quizzData;
+  return quizzData;
 }
 
 export function saveDeckTitle(title) {
-  try {
-    AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(title));
-  } catch (e) {
-    console.log('error: ', e)
-  }
+  AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(title));
+
 }
 
-export function addNewCard( card, title, navigation ) {
-	return AsyncStorage.getItem(STORAGE_KEY, (err, result) => {
-	  let storedDecks = JSON.parse(result);
-	  let newQuestions = JSON.parse(
-			JSON.stringify(storedDecks[title].questions),
-		)
-		newQuestions[newQuestions.length] = card.questionData
+export function addNewCard(card, title, navigation) {
+  return AsyncStorage.getItem(STORAGE_KEY, (err, result) => {
+    let storedDecks = JSON.parse(result);
+    let newQuestions = JSON.parse(
+      JSON.stringify(storedDecks[title].questions),
+    )
+    newQuestions[newQuestions.length] = card.questionData
 
-	  const updatedDeck = JSON.stringify({
-  		[title]: { title: title, questions: newQuestions },
-   	})
-    
+    const updatedDeck = JSON.stringify({
+      [title]: { title: title, questions: newQuestions },
+    })
+
     let params = {
       title: title,
       questions: newQuestions
     }
 
-	  AsyncStorage.mergeItem(STORAGE_KEY, updatedDeck, ()=> navigation.navigate('DeckView', params))	
- })
+    AsyncStorage.mergeItem(STORAGE_KEY, updatedDeck, () => navigation.navigate('DeckView', params))
+  })
 }
 

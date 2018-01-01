@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
 	StyleSheet,
 	View,
@@ -6,9 +6,9 @@ import {
 	TouchableOpacity,
 	FlatList,
 	AsyncStorage
-} from 'react-native'
-import { getDecks } from '../utils/api'
-import DeckView from './DeckView'
+} from 'react-native';
+import { getDecks } from '../utils/api';
+import DeckView from './DeckView';
 
 class DeckList extends React.Component {
 
@@ -63,7 +63,6 @@ class DeckList extends React.Component {
 
 	render() {
 		return (
-
 			<View style={styles.container}>
 				<View style={styles.topInfo}>
 					<Text style={{ textAlign: 'center' }}>DECKS</Text>
@@ -74,7 +73,7 @@ class DeckList extends React.Component {
 					}
 					{this.state.showNotification
 						&& <Text onPress={() => {
-							this.setState({showNotification: false})
+							this.setState({ showNotification: false })
 						}} style={{ color: 'white', textAlign: 'center' }}>- Close -</Text>
 					}
 				</View>

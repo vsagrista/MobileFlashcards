@@ -87,7 +87,6 @@ class DeckView extends React.Component {
 					</View>
 				</Animated.View>
 			</View>
-
 		)
 	}
 }

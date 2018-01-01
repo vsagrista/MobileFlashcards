@@ -55,7 +55,7 @@ class NewDeck extends React.Component {
 			this._fetchDecks();
 			this.props.navigation.navigate('DeckList', { notice: true });
 		} else {
-			console.log('something happened')
+			console.log('Error adding deck');
 		}
 	}
 
