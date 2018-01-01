@@ -21,6 +21,7 @@ class QuizzView extends React.Component {
     }
 
     componentDidMount() {
+        console.log('this.props.navigation.state.params: ', this.props.navigation.state.params);
         if (this.props.navigation.state.params.data) { // if true, the quizz is run from the resultsView component
             this.setState({
                 count: `${this.props.navigation.state.params.data.currentQuestion + 1} / ${this.props.navigation.state.params.data.questions.length}`,

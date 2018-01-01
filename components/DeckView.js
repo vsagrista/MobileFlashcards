@@ -7,6 +7,7 @@ import {
 	FlatList
 } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import NewQuestion from './NewQuestion';
 
 class DeckView extends React.Component {
 
@@ -41,25 +42,28 @@ class DeckView extends React.Component {
 
 	render() {
 		return (
-			<View style={{flex: 1}}>
+			<View style={{ flex: 1 }}>
 				<View style={styles.topInfo}>
 					<Text style={{ textAlign: 'left' }}>Cards: {this.state.questions.length} cards</Text>
-					<Ionicons name="ios-photos-outline" size={40} color={'black'}  style={{ textAlign: 'center' }}/>
+					<Ionicons name="ios-photos-outline" size={40} color={'black'} style={{ textAlign: 'center' }} />
 					<Text style={{ textAlign: 'center' }}>DECK: {this.state.title && this.state.title.toUpperCase()}</Text>
 				</View>
 				<View style={styles.container}>
-					<View style={[styles.containerInner, styles.containerEven]}>
-						<TouchableOpacity
-							onPress={() => {
-								this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.questions)
-							}}>
-							<Text style={{ textAlign: 'center' }}>Start quizz</Text>
-						</TouchableOpacity>
-					</View>
+					{
+						this.state.questions.length > 0 &&
+						<View style={[styles.containerInner, styles.containerEven]}>
+							<TouchableOpacity
+								onPress={() => {
+									this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.questions)
+								}}>
+								<Text style={{ textAlign: 'center' }}>Start quizz</Text>
+							</TouchableOpacity>
+						</View>
+					}
 					<View style={[styles.containerInner, styles.containerOdd]}>
 						<TouchableOpacity
 							onPress={() => {
-								// this.props.navigation.navigate('QuizzView', item) New question
+								this.props.navigation.navigate('NewQuestion', this.props.navigation.state.params.title)
 							}}>
 							<Text style={{ textAlign: 'center' }}>Add Question</Text>
 						</TouchableOpacity>
@@ -67,7 +71,7 @@ class DeckView extends React.Component {
 
 				</View>
 			</View>
-			
+
 		)
 	}
 }

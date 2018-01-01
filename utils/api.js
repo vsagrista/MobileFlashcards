@@ -55,3 +55,24 @@ export function saveDeckTitle(title) {
   }
 }
 
+export function addNewCard( card, title, navigation ) {
+	return AsyncStorage.getItem(STORAGE_KEY, (err, result) => {
+	  let storedDecks = JSON.parse(result);
+	  let newQuestions = JSON.parse(
+			JSON.stringify(storedDecks[title].questions),
+		)
+		newQuestions[newQuestions.length] = card.questionData
+
+	  const updatedDeck = JSON.stringify({
+  		[title]: { title: title, questions: newQuestions },
+   	})
+    
+    let params = {
+      title: title,
+      questions: newQuestions
+    }
+
+	  AsyncStorage.mergeItem(STORAGE_KEY, updatedDeck, ()=> navigation.navigate('DeckView', params))	
+ })
+}
+

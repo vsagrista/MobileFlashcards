@@ -67,7 +67,7 @@ class ResultsView extends React.Component {
                 }
                 {isLastQuestion &&
                     <View>
-                        <Text style={{ textAlign: 'center' }}>FANTASTIC!!!</Text>
+                        <Text style={{ textAlign: 'center' }}>CONGRATS FOR FINISHING!!!</Text>
                         <Text style={{ textAlign: 'center' }}>Your success rate was: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%</Text>
                         <View>
                             <TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
