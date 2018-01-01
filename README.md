@@ -24,12 +24,11 @@ Git clone the repo & cd to file
 ```
 git clone https://github.com/vsagrista/MobileFlashcards.git
 cd MobileFlashcards
-```
-open the Expo app where the project is located
 yarn install 
 ```
 
 Wait for yarn to download the node libraries
+Open the Expo app where the project is located
 Then again on the console:
 
 ```
