@@ -32,7 +32,6 @@ class ResultsView extends React.Component {
     }
 
     render() {
-        //console.log('params: ', this.props.navigation.state.params)
         let isAnswerCorrect = this.props.navigation.state.params.data.isCorrect;
         let isLastQuestion = this.props.navigation.state.params.isLastQuestion;
         return (
@@ -75,9 +74,18 @@ class ResultsView extends React.Component {
                                     this.props.navigation.navigate('DeckList');
                                 }}>
                                 <Ionicons style={{ textAlign: 'center' }} name="ios-home-outline" size={40} color={'black'} />
-                                <Text style={{ textAlign: 'center' }}>Finish</Text>
+                                <Text style={{ textAlign: 'center' }}>- Finish -</Text>
                             </TouchableOpacity>
                         </View>
+                        <View style={[styles.containerInner, styles.containerEven]}>
+							<TouchableOpacity
+								onPress={() => {
+									this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.data.questions)
+								}}>
+                                <Ionicons style={{ textAlign: 'center' }} name="ios-photos-outline" size={40} color={'black'} />
+								<Text style={{ textAlign: 'center' }}>- Retake quizz -</Text>
+							</TouchableOpacity>
+						</View>
                     </View>}
             </View >
 

@@ -70,7 +70,7 @@ const MainNavigator = StackNavigator({
     navigationOptions: {
       tabBarLabel: 'Quizz View',
       tabBarIcon: ({ tintColor }) => (
-        <Ionicons name="ios-add-circle-outline" size={40} color={tintColor} />
+        <Ionicons name="ios-add-circle-outline" size={40} color='tintColor' />
       ),
     },
   },
