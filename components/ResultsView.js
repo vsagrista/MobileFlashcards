@@ -8,15 +8,24 @@ import {
 } from 'react-native';
 import QuizzView from './QuizzView';
 import DeckView from './DeckView';
-import {clearLocalNotification,
-        setLocalNotification } from '../utils/helperFunctions';
+import {
+    clearLocalNotification,
+    setLocalNotification
+} from '../utils/helperFunctions';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 class ResultsView extends React.Component {
 
-    _containerStyle = (isAnswerCorrect, isLastQuestion) => {
+    constructor() {
+        super();
+        this.state = {
+            showStats: false
+        }
+    }
+
+    _containerStyle = (isAnswerCorrect, showStats) => {
         let backgroundColor;
-        if (isLastQuestion) {
+        if (showStats) {
             backgroundColor = 'lightblue';
         } else {
             backgroundColor = isAnswerCorrect
@@ -33,6 +42,35 @@ class ResultsView extends React.Component {
         }
     }
 
+
+    _renderSummary = (deckViewParams) => {
+        return (
+            <View>
+                <Text style={{ textAlign: 'center' }}>CONGRATS FOR FINISHING!!!</Text>
+                <Text style={{ textAlign: 'center' }}>Your success rate was: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%</Text>
+                <View>
+                    <TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
+                        onPress={() => {
+                            this.props.navigation.navigate('DeckView', deckViewParams);
+                        }}>
+                        <Ionicons style={{ textAlign: 'center' }} name="ios-photos-outline" size={40} color={'black'} />
+                        <Text style={{ textAlign: 'center' }}>- Back to deck -</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={[styles.containerInner, styles.containerEven]}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            clearLocalNotification().then(setLocalNotification)
+                            this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.data)
+                        }}>
+                        <Ionicons style={{ textAlign: 'center' }} name="ios-refresh" size={40} color={'black'} />
+                        <Text style={{ textAlign: 'center' }}>- Retake quizz -</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
     render() {
         let isAnswerCorrect = this.props.navigation.state.params.data.isCorrect;
         let isLastQuestion = this.props.navigation.state.params.isLastQuestion;
@@ -42,8 +80,8 @@ class ResultsView extends React.Component {
             questions: this.props.navigation.state.params.data.questions
         }
         return (
-            <View style={this._containerStyle(isAnswerCorrect, isLastQuestion)}>
-                {!isLastQuestion &&
+            <View style={this._containerStyle(isAnswerCorrect, this.state.showStats)}>
+                {!this.state.showStats &&
                     <View style={styles.message}>
                         {
                             isAnswerCorrect
@@ -65,36 +103,28 @@ class ResultsView extends React.Component {
                         <Text>
                             Success rate: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%
                         </Text>
-                        <Text
-                            onPress={() => {
-                                this.props.navigation.navigate('QuizzView', this.props.navigation.state.params)
-                            }} > - Next Question - </Text>
+                        {
+                            !isLastQuestion &&
+                            <Text
+                                onPress={() => {
+                                    this.props.navigation.navigate('QuizzView', this.props.navigation.state.params)
+                                }} > - Next Question - 
+                            </Text>
+                        }
+                        {
+                            isLastQuestion &&
+                            <Text
+                                onPress={() => {
+                                    this.setState({ showStats: true})
+                                }} > - Show stats - 
+                            </Text>
+                        }
+
                     </View>
                 }
-                {isLastQuestion &&
-                    <View>
-                        <Text style={{ textAlign: 'center' }}>CONGRATS FOR FINISHING!!!</Text>
-                        <Text style={{ textAlign: 'center' }}>Your success rate was: {Math.round((this.props.navigation.state.params.data.correctCount / this.props.navigation.state.params.data.currentQuestion) * 100)}%</Text>
-                        <View>
-                            <TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
-                                onPress={() => {
-                                    this.props.navigation.navigate('DeckView', deckViewParams);
-                                }}>
-                                <Ionicons style={{ textAlign: 'center' }} name="ios-photos-outline" size={40} color={'black'} />
-                                <Text style={{ textAlign: 'center' }}>- Back to deck -</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={[styles.containerInner, styles.containerEven]}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    clearLocalNotification().then(setLocalNotification)
-                                    this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.data)
-                                }}>
-                                <Ionicons style={{ textAlign: 'center' }} name="ios-refresh" size={40} color={'black'} />
-                                <Text style={{ textAlign: 'center' }}>- Retake quizz -</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>}
+                {
+                    this.state.showStats && this._renderSummary(deckViewParams)
+                }
             </View >
 
         )
