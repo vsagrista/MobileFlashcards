@@ -4,7 +4,8 @@ import {
 	View,
 	Text,
 	TouchableOpacity,
-	FlatList
+	FlatList,
+	Animated
 } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import NewQuestion from './NewQuestion';
@@ -15,7 +16,8 @@ class DeckView extends React.Component {
 		super();
 		this.state = {
 			questions: [],
-			currentQuestion: 0
+			currentQuestion: 0,
+			fadeAnim: new Animated.Value(0)
 		}
 	}
 
@@ -24,19 +26,25 @@ class DeckView extends React.Component {
 			title: this.props.navigation.state.params.title,
 			questions: this.props.navigation.state.params.questions
 		})
+		Animated.timing(
+			this.state.fadeAnim,
+			{
+				toValue: 1,
+				duration: 500,
+			}
+		).start();
 	}
 
-	renderItem = ({ item }) => (
-		<View style={styles.item}>
-			<TouchableOpacity
-				onPress={() => {
-					this.props.navigation.navigate('QuizzView', item)
-				}}>
-				<Text style={{ textAlign: 'center' }}>Question: {item.question}</Text>
-			</TouchableOpacity>
-		</View>
-	)
-
+	_animatedContainer = () => {
+		return {
+			flex: 1,
+			backgroundColor: 'white',
+			padding: 10,
+			flexDirection: 'column',
+			alignItems: 'center',
+			opacity: this.state.fadeAnim
+		}
+	}
 
 	_keyExtractor = (item, i) => i;
 
@@ -48,7 +56,7 @@ class DeckView extends React.Component {
 					<Ionicons name="ios-photos-outline" size={40} color={'black'} style={{ textAlign: 'center' }} />
 					<Text style={{ textAlign: 'center' }}>DECK: {this.state.title && this.state.title.toUpperCase()}</Text>
 				</View>
-				<View style={styles.container}>
+				<Animated.View style={this._animatedContainer()}>
 					{
 						this.state.questions.length > 0 &&
 						<View style={[styles.containerInner, styles.containerEven]}>
@@ -69,15 +77,15 @@ class DeckView extends React.Component {
 						</TouchableOpacity>
 					</View>
 					<View>
-                            <TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
-                                onPress={() => {
-                                    this.props.navigation.navigate('DeckList', {notify: true});
-                                }}>
-                                <Ionicons style={{ textAlign: 'center' }} name="ios-home-outline" size={40} color={'black'} />
-                                <Text style={{ textAlign: 'center' }}>- Back home -</Text>
-                            </TouchableOpacity>
-                        </View>
-				</View>
+						<TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
+							onPress={() => {
+								this.props.navigation.navigate('DeckList', { notify: true });
+							}}>
+							<Ionicons style={{ textAlign: 'center' }} name="ios-home-outline" size={40} color={'black'} />
+							<Text style={{ textAlign: 'center' }}>- Back home -</Text>
+						</TouchableOpacity>
+					</View>
+				</Animated.View>
 			</View>
 
 		)
