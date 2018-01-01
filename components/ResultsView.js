@@ -7,7 +7,7 @@ import {
     FlatList
 } from 'react-native';
 import QuizzView from './QuizzView';
-import DeckList from './DeckList';
+import DeckView from './DeckView';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 class ResultsView extends React.Component {
@@ -34,6 +34,11 @@ class ResultsView extends React.Component {
     render() {
         let isAnswerCorrect = this.props.navigation.state.params.data.isCorrect;
         let isLastQuestion = this.props.navigation.state.params.isLastQuestion;
+        // params for single deck view
+        let deckViewParams = {
+            title: this.props.navigation.state.params.data.title,
+            questions: this.props.navigation.state.params.data.questions
+        }
         return (
             <View style={this._containerStyle(isAnswerCorrect, isLastQuestion)}>
                 {!isLastQuestion &&
@@ -71,21 +76,21 @@ class ResultsView extends React.Component {
                         <View>
                             <TouchableOpacity style={[styles.button, styles.buttonIncorrect]}
                                 onPress={() => {
-                                    this.props.navigation.navigate('DeckList');
+                                    this.props.navigation.navigate('DeckView', deckViewParams);
                                 }}>
-                                <Ionicons style={{ textAlign: 'center' }} name="ios-home-outline" size={40} color={'black'} />
-                                <Text style={{ textAlign: 'center' }}>- Finish -</Text>
+                                <Ionicons style={{ textAlign: 'center' }} name="ios-photos-outline" size={40} color={'black'} />
+                                <Text style={{ textAlign: 'center' }}>- Back to deck -</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={[styles.containerInner, styles.containerEven]}>
-							<TouchableOpacity
-								onPress={() => {
-									this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.data.questions)
-								}}>
-                                <Ionicons style={{ textAlign: 'center' }} name="ios-photos-outline" size={40} color={'black'} />
-								<Text style={{ textAlign: 'center' }}>- Retake quizz -</Text>
-							</TouchableOpacity>
-						</View>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.data)
+                                }}>
+                                <Ionicons style={{ textAlign: 'center' }} name="ios-refresh" size={40} color={'black'} />
+                                <Text style={{ textAlign: 'center' }}>- Retake quizz -</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>}
             </View >
 

@@ -16,23 +16,26 @@ class QuizzView extends React.Component {
             questions: [],
             currentQuestion: 0,
             isCorrect: null,
-            correctCount: 0
+            correctCount: 0,
+            title: ''
         }
     }
 
     componentDidMount() {
-        console.log('this.props.navigation.state.params: ', this.props.navigation.state.params);
+        console.log('this.props.navigation.state.params from quizzView: ', this.props.navigation.state.params);
         if (this.props.navigation.state.params.data) { // if true, the quizz is run from the resultsView component
             this.setState({
                 count: `${this.props.navigation.state.params.data.currentQuestion + 1} / ${this.props.navigation.state.params.data.questions.length}`,
                 currentQuestion: this.props.navigation.state.params.data.currentQuestion,
                 questions: this.props.navigation.state.params.data.questions,
-                correctCount: this.props.navigation.state.params.data.correctCount
+                correctCount: this.props.navigation.state.params.data.correctCount,
+                title: this.props.navigation.state.params.data.title
             })
         } else {
             this.setState({
-                count: `${this.state.currentQuestion + 1} / ${this.props.navigation.state.params.length}`,
-                questions: this.props.navigation.state.params
+                count: `${this.state.currentQuestion + 1} / ${this.props.navigation.state.params.questions.length}`,
+                questions: this.props.navigation.state.params.questions,
+                title: this.props.navigation.state.params.title
             })
         }
     }
@@ -49,7 +52,8 @@ class QuizzView extends React.Component {
                 questions: this.state.questions,
                 currentQuestion: this.state.currentQuestion + 1,
                 isCorrect: isCorrect,
-                correctCount: isCorrect ? this.state.correctCount + 1 : this.state.correctCount
+                correctCount: isCorrect ? this.state.correctCount + 1 : this.state.correctCount,
+                title: this.state.title
             },
             isLastQuestion: isLastQuestion,
             correctCount: correctCount,

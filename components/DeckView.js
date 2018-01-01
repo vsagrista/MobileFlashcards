@@ -54,7 +54,7 @@ class DeckView extends React.Component {
 						<View style={[styles.containerInner, styles.containerEven]}>
 							<TouchableOpacity
 								onPress={() => {
-									this.props.navigation.navigate('QuizzView', this.props.navigation.state.params.questions)
+									this.props.navigation.navigate('QuizzView', this.props.navigation.state.params)
 								}}>
 								<Text style={{ textAlign: 'center' }}>Start quizz</Text>
 							</TouchableOpacity>
