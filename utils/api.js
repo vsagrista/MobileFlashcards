@@ -47,9 +47,13 @@ export function storeData() {
   return quizzData;
 }
 
-export function saveDeckTitle(title) {
-  AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(title));
-
+export function saveDeck(deck, title, navigation) {
+  let params = {
+    title: title,
+    questions: [],
+    notifySaved: true
+  }
+  AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(deck), () => navigation.navigate('DeckView', params));
 }
 
 export function addNewCard(card, title, navigation) {
@@ -66,7 +70,8 @@ export function addNewCard(card, title, navigation) {
 
     let params = {
       title: title,
-      questions: newQuestions
+      questions: newQuestions,
+      notifySaved: true
     }
 
     AsyncStorage.mergeItem(STORAGE_KEY, updatedDeck, () => navigation.navigate('DeckView', params))

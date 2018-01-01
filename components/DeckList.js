@@ -67,16 +67,6 @@ class DeckList extends React.Component {
 				<View style={styles.topInfo}>
 					<Text style={{ textAlign: 'center' }}>DECKS</Text>
 				</View>
-				<View style={styles.notification}>
-					{this.state.showNotification
-						&& <Text style={{ color: 'white', textAlign: 'center' }}>Deck saved!</Text>
-					}
-					{this.state.showNotification
-						&& <Text onPress={() => {
-							this.setState({ showNotification: false })
-						}} style={{ color: 'white', textAlign: 'center' }}>- Close -</Text>
-					}
-				</View>
 				<FlatList
 					data={this.state.decks}
 					renderItem={this.renderItem}
@@ -116,12 +106,6 @@ const styles = StyleSheet.create({
 			width: 0,
 			height: 3
 		}
-	},
-	notification: {
-		backgroundColor: 'green',
-		width: 300,
-		marginTop: 50,
-		borderRadius: 15
 	}
 });
 

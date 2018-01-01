@@ -17,15 +17,18 @@ class DeckView extends React.Component {
 		this.state = {
 			questions: [],
 			currentQuestion: 0,
-			fadeAnim: new Animated.Value(0)
+			fadeAnim: new Animated.Value(0),
+			notifySaved: null
 		}
 	}
 
 	componentDidMount() {
 		this.setState({
 			title: this.props.navigation.state.params.title,
-			questions: this.props.navigation.state.params.questions
-		})
+			questions: this.props.navigation.state.params.questions,
+			notifySaved: this.props.navigation.state.params.notifySaved
+		}, this._turnOffNotification());
+
 		Animated.timing(
 			this.state.fadeAnim,
 			{
@@ -33,6 +36,10 @@ class DeckView extends React.Component {
 				duration: 500,
 			}
 		).start();
+	}
+
+	_turnOffNotification() {
+		setTimeout(function () { this.setState({ notifySaved: false }); }.bind(this), 4000);
 	}
 
 	_animatedContainer = () => {
@@ -57,6 +64,12 @@ class DeckView extends React.Component {
 					<Text style={{ textAlign: 'center' }}>DECK: {this.state.title && this.state.title.toUpperCase()}</Text>
 				</View>
 				<Animated.View style={this._animatedContainer()}>
+					{
+						this.state.notifySaved &&
+						<View style={[styles.containerInner, styles.notification]}>
+							<Text style={{ color: 'white', textAlign: 'center' }}>SAVED!</Text>
+						</View>
+					}
 					{
 						this.state.questions.length > 0 &&
 						<View style={[styles.containerInner, styles.containerEven]}>
@@ -128,6 +141,9 @@ const styles = StyleSheet.create({
 	},
 	containerEven: {
 		backgroundColor: 'lightblue'
+	},
+	notification: {
+		backgroundColor: 'green'
 	}
 })
 

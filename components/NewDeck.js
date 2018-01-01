@@ -7,7 +7,7 @@ import {
 	TouchableOpacity,
 	Alert
 } from 'react-native'
-import { getDecks, saveDeckTitle } from '../utils/api';
+import { getDecks, saveDeck } from '../utils/api';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import DeckList from './DeckList';
 
@@ -41,19 +41,19 @@ class NewDeck extends React.Component {
 
 	_saveDeck = () => {
 		if (this._validate()) {
+			let title = this.state.title
 			let newDeck = {
-				[this.state.title]:
+				[title]:
 				{
-					title: this.state.title,
+					title: title,
 					questions: []
 				}
 			}
 			this.setState({
 				title: ''
 			});
-			saveDeckTitle(newDeck);
+			saveDeck(newDeck, title, this.props.navigation);
 			this._fetchDecks();
-			this.props.navigation.navigate('DeckList', { notice: true });
 		} else {
 			console.log('Error adding deck');
 		}
